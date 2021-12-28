@@ -6,22 +6,10 @@
     <ul></ul>
 
     <form><input><button>Add</button></form>
-    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gun/gun.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/gun/lib/radix.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/gun/lib/radisk.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/gun/lib/store.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/gun/lib/rindexed.js"></script>
-    <script src="https://skynet-js.hns.siasky.net/4.0-beta/index.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/zenbase/src/index.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
     <script>
-        var todos = Gun({
-            localStorage: false,
-            secret: "d28de12a-41a2-43cf-808d-fd4582354008",
-            portal: "https://siasky.net",
-            debug: false,
-            until: 2 * 1000
-        }).get('todos')
+        var todos = Gun(['https://gundb-dev.herokuapp.com/gun']).get('todos')
 
         $('form').on('submit', function (event) {
             var input = $('form').find('input')
