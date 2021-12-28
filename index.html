@@ -26,7 +26,10 @@
             if (todo) {
                 var html = '<span onclick="clickTitle(this)">' + todo.title + '</span>'
                 html = '<input type="checkbox" onclick="clickCheck(this)" ' + (todo.done ? 'checked' : '') + '>' + html
+                html += '<img onclick="clickDelete(this)" src="https://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/svgs/fi-x.svg"/>'
                 li.html(html)
+            } else {
+                li.remove()
             }
         })
         function clickCheck(element) {
@@ -51,6 +54,9 @@
                 // And tell GUN to update the title of the todo item.
                 todos.get($(element).parent().parent().attr('id')).put({ title: $(element).val() })
             }
+        }
+        function clickDelete(element) {
+            todos.get($(element).parent().attr('id')).put(null)
         }
     </script>
 
