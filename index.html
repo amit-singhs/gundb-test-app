@@ -6,11 +6,22 @@
     <ul></ul>
 
     <form><input><button>Add</button></form>
-
-    <script src="https://cdn.jsdelivr.net/npm/gun/gun.js"></script>
     <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gun/gun.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gun/lib/radix.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gun/lib/radisk.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gun/lib/store.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gun/lib/rindexed.js"></script>
+    <script src="https://skynet-js.hns.siasky.net/4.0-beta/index.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/zenbase/src/index.js"></script>
     <script>
-        var todos = Gun(['https://gundb-dev.herokuapp.com/gun']).get('todos')
+        var todos = Gun({
+            localStorage: false,
+            secret: "YOUR_SECRET_HERE",
+            portal: "https://siasky.net",
+            debug: false,
+            until: 2 * 1000
+        }).get('todos')
 
         $('form').on('submit', function (event) {
             var input = $('form').find('input')
@@ -25,10 +36,30 @@
                 li = $('<li>').attr('id', id).appendTo('ul')
             }
             if (todo) {
-                var html = todo.title
+                var html = '<span onclick="clickTitle(this)">' + todo.title + '</span>'
                 li.html(html)
             }
         })
+
+        function clickTitle(element) {
+            // Get the (jQuery) element of the text.
+            element = $(element)
+            // Check if the element does not yet contain an input field.
+            // So we will only add one input field when clicked multiple times.
+            if (!element.find('input').get(0)) {
+                // Turn the elements text into an input.
+                element.html('<input value="' + element.html() + '" onkeyup="keypressTitle(this)">')
+            }
+        }
+
+        function keypressTitle(element) {
+            // Is Enter pressed?
+            if (event.keyCode === 13) {
+                // Get the GUN item with the id that we store in the element.
+                // And tell GUN to update the title of the todo item.
+                todos.get($(element).parent().parent().attr('id')).put({ title: $(element).val() })
+            }
+        }
     </script>
 
     <style>
