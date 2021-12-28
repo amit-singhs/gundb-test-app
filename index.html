@@ -25,9 +25,13 @@
             }
             if (todo) {
                 var html = '<span onclick="clickTitle(this)">' + todo.title + '</span>'
+                html = '<input type="checkbox" onclick="clickCheck(this)" ' + (todo.done ? 'checked' : '') + '>' + html
                 li.html(html)
             }
         })
+        function clickCheck(element) {
+            todos.get($(element).parent().attr('id')).put({ done: $(element).prop('checked') })
+        }
 
         function clickTitle(element) {
             // Get the (jQuery) element of the text.
