@@ -1,0 +1,25 @@
+<script src="https://cdn.jsdelivr.net/npm/gun/examples/jquery.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gun/gun.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gun/sea.js"></script>
+
+<script>;
+    (function () {
+        var gun = Gun();
+        var user = gun.user();
+
+        // create a user from username alias and a password phrase.
+        /* user.create("john", "firsttimer@11", function (ack) {
+            console.log("User created ! this is the acknowledge received --> ", ack.pub);
+        });
+        return; */
+
+        user.auth("john", "firsttimer@11", function (ack) {
+            console.log("Credentials verified succesfully !");
+            //gun.get("pub/" + ack.pub).put({ name: "John Kolby" })
+            gun.get("pub/" + ack.pub).get('name').on(function (val, key) {
+                console.log("READ from storage : ", key, val)
+            });
+        });
+
+    }());
+</script>
