@@ -1,0 +1,31 @@
+<meta charset="utf-8" />
+<script src="https://cdn.jsdelivr.net/npm/gun/examples/jquery.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gun/gun.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gun/sea.js"></script>
+
+<script>;
+    (function () {
+        var gun = Gun('https://gundb-dev.herokuapp.com/gun');
+        var user = gun.user();
+
+        // create a user from username alias and a password phrase.
+
+        user.create("chrisj", "firsttimer@11", function (ack) {
+            console.log("User created ! this is the acknowledge received --> ", ack.pub);
+        });
+        //return;
+
+        user.auth("pamvis", "firsttimer@11", function (ack) {
+            console.log("Credentials verified succesfully !");
+            /* gun.get("pub/" + ack.pub).put({
+                name: "Andy Jones Junior"
+                , profile_pic: "https://images.unsplash.com/photo-1626889269611-bf6a3659e5c3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1374&q=80"
+                , id: 1
+            }) */
+            gun.get("pub/" + ack.pub).get('name').on(function (val, key) {
+                console.log("READ from storage : ", key, ":", val)
+            });
+        });
+
+    }());
+</script>
